@@ -49,7 +49,7 @@ function FullPage(options) {
     if (!page || pagelen === 1) return;
     if (options.mode) {
         _isNav = options.mode.indexOf('nav:') !== -1;
-        mode = options.mode.split(',');
+        mode = options.mode.split(','); // 	mode : 'wheel,touch,nav:navBar',
         modeLen = mode.length;
     }
     for (_t = 0; _t < pagelen; _t++) {
@@ -99,7 +99,6 @@ function FullPage(options) {
             }
         }(document.createElement('Chriswang').style)
     };
-
 
     function UnitBezier(p1x, p1y, p2x, p2y) {
         // pre-calculate the polynomial coefficients
@@ -471,7 +470,7 @@ function FullPage(options) {
                 return;
             }
         }
-
+        //默认false
         if (_isLocked // make sure translate is already
             ||
             to === indexNow) return; // don't translate if thispage
@@ -484,12 +483,12 @@ function FullPage(options) {
                 to < 0 &&
                 stepNow[indexNow] === 0) return;
         }
-
+        //锁定翻页，不能点两次
         _isLocked = true;
-        //成功翻页
+        //翻页不合理
         if (!arguments[1] && !checkStep(to - indexNow)) {
-            return setTimeout(function() {
-                _isLocked = false;
+            return setTimeout(function() { //返回了
+                _isLocked = false; //800ms后（动画结束后）可以再次点击
             }, sTime);
         }
         //效果重置
@@ -501,18 +500,18 @@ function FullPage(options) {
         indexOld = indexNow;
         indexNow = to;
         if (_isNav) navChange(indexOld, indexNow);
+        //三个线程异步执行
+        //1
         setTimeout(function() {
             // fix for bug in ie6-9 about z-index
             page[to].className += ' slide';
-        }, fix);
-
+        }, fix); //20左右
+        //2
         setTimeout(function() {
-
             pageStyle[to][browser.cssCore + 'TransitionDuration'] = sTime + 'ms';
         }, 20);
-
+        //3 新的线程
         setTimeout(function() {
-
             resetStep();
             replaceClass(page[indexOld], 'current', '');
             replaceClass(page[indexNow], 'slide', 'current');
@@ -526,6 +525,7 @@ function FullPage(options) {
                     _isLocked = false;
                 }, 500)
             } else {
+                //可以再次翻页
                 _isLocked = false;
             }
         }, sTime + _fix + 120);
@@ -537,10 +537,8 @@ function FullPage(options) {
     page[indexNow].className = _t.indexOf('current') !== -1 ? _t : _t + ' current';
 
     if (browser.addEventListener) {
-
         window.addEventListener('resize', init, false);
     } else {
-
         window.onresize = init;
     }
     // check mode
@@ -560,6 +558,7 @@ function FullPage(options) {
                         } else {
                             e.returnValue = false;
                         }
+                        //翻页锁定
                         if (_isLocked) return;
                         direct = -e.wheelDelta || e.detail;
                         direct = direct < 0 ? -1 : 1;
@@ -960,7 +959,6 @@ function FullPage(options) {
                                 pageContain.removeEventListener(_touch.end, touchEvent.end, false);
 
                             }
-
                         }
 
                         pageContain.addEventListener(_touch.start, touchEvent.start, false);
@@ -970,13 +968,13 @@ function FullPage(options) {
                 case m.indexOf('nav:') !== -1:
                     (function() {
 
-                        var navId = m.split(':')[1],
+                        var navId = m.split(':')[1], //nav:navBar', //id="navBar"
                             navObj = document.getElementById(navId),
                             navLen,
                             gotoPage,
                             _t;
 
-                        navChildren = navObj.children;
+                        navChildren = navObj.children; // li s
                         navLen = navChildren.length;
                         _t = navChildren[indexNow].className;
 
@@ -984,29 +982,32 @@ function FullPage(options) {
 
                         while (navLen--) {
                             // set attr for finding specific page
+                            //好读取这个值翻到指定页
                             navChildren[navLen].setAttribute('data-page', navLen);
                         }
+                        //给当前页的导航加上active class
                         if (_t.indexOf('active') === -1) {
                             navChildren[indexNow].className = _t === '' ? 'active' : _t + ' active';
                         }
 
                         gotoPage = function(e) {
 
-                                var t;
-                                e = e || window.event;
-                                e = e.target || e.srcElement;
+                            var t;
+                            e = e || window.event;
+                            e = e.target || e.srcElement;
 
+                            t = e.tagName.toLowerCase();
+                            //冒泡。从内向外冒
+                            while (t !== 'li') {
+                                if (t === 'ul') return; //找父类
+                                e = e.parentNode;
                                 t = e.tagName.toLowerCase();
-
-                                while (t !== 'li') {
-                                    if (t === 'ul') return;
-                                    e = e.parentNode;
-                                    t = e.tagName.toLowerCase();
-                                }
-
-                                goPage(+e.getAttribute('data-page'), 1);
                             }
-                            // bind event to navObj
+
+                            goPage(+e.getAttribute('data-page'), 1);
+                        }
+                        // bind event to navObj
+                        //帮定点击事件给导航条， 跳转到对应oage
                         onTap(navObj, gotoPage, 1);
                     }());
             }
