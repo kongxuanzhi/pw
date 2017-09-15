@@ -43,7 +43,6 @@
 
 <script>
 export default {
-  name: 'hello',
   data () {
     return {
       shapes: [
@@ -63,23 +62,13 @@ export default {
   },
   mounted(){
     this.initContext()
-    // var i = 0
-    // let drawS = () => {
-    //  setInterval(draw(shapes[i], ctxs[i]), 1000)
-    //  i++
-    //  if (i == ctxs.length) {
-    //      return
-    //  }
-    // }
-    // drawS()
     for (let i=0;i<this.ctxs.length; i++) {
         this.draw(this.shapes[i], this.ctxs[i])
-        // setInterval(), 1000);
     }
   },
   methods: {
     initContext: function() {
-        let contexts = document.getElementsByClassName("myCanvas");
+        let contexts = $(".myCanvas");
         for (let i = 0; i < contexts.length; i++) {
             let ctx = contexts[i].getContext("2d");
             ctx.strokeStyle = '#666fff';
@@ -154,27 +143,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-::-webkit-scrollbar
-{
-    width: 4px;
-    background-color: red;
-}
-
-/*定义滚动条轨道 内阴影+圆角*/
-::-webkit-scrollbar-track
-{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-    background-color: #F5F5F5;
-}
-
-/*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb
-{
-    border-radius: 2px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #36d860;
-}
 #lock {
     background-color: #eee;
     text-align: center;
@@ -211,29 +179,37 @@ canvas {
         background: url('../assets/girl.jpg') repeat-y;
         background-size: auto 100%;
     }
+
+    .todolist {
+        width: 100% !important;
+    }
+
+    .words {
+        width: 100% !important;
+    }
 }
 
 .todolist {
-    width: 500px;
+    box-sizing: border-box;
+    width: 30%;
     color: white;
     float: left;
-    height: 299px;
+    height: 321px;
     border: 1px solid white;
     padding: 10px;
     text-align: left;
-    margin-left: 10px;
     font-family: '隶书' !important;
 }
 
 .words {
-    width: 500px;
+    box-sizing: border-box;
+    width: 30%;
     color: white;
     float: right;
-    height: 299px;
+    height: 321px;
     border: 1px solid white;
     padding: 10px;
     text-align: left;
-    margin-left: 10px;
     font-family: '隶书' !important;
 }
 </style>
