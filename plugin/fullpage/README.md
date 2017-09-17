@@ -140,3 +140,13 @@ Fullpage也提供了一些接口供使用此插件的开发者调用：
 `thisPage()` 返回当前的页码
 
 `go(num)` 直接滑到第num页
+
+
+class=
+  "page page2 current"
+style=
+transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+transform-origin: 50% 50% 0px;
+transform: translate(0px, 0px) translateZ(0px) scale(1) rotate(0deg);
+opacity: 1; 
+transition-duration: 800ms;

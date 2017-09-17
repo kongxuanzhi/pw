@@ -84,16 +84,12 @@ function FullPage(options) {
             switch (true) {
                 case testCss.webkitTransition === '':
                     return 'webkit';
-                    break;
                 case testCss.MozTransition === '':
                     return 'Moz';
-                    break;
                 case testCss.msTransition === '':
                     return 'ms';
-                    break;
                 case testCss.OTransition === '':
                     return 'O';
-                    break;
                 default:
                     return '';
             }
@@ -221,8 +217,17 @@ function FullPage(options) {
 
     if (browser.cssCore !== '') {
 
+        //支持cubic-bezier属性的浏览器
         while (iPage--) {
-
+            // cssCore：webkit，Moz，ms，O
+            //div
+            // {
+            // transition-timing-function: linear;
+            // -moz-transition-timing-function: linear; /* Firefox 4 */
+            // -webkit-transition-timing-function: linear; /* Safari 和 Chrome */
+            // -o-transition-timing-function: linear; /* Opera */
+            // }
+            //document.createElement('Chriswang').style.webkitTransitionTimingFunction
             pageStyle[iPage][browser.cssCore + 'TransitionTimingFunction'] = 'cubic-bezier(' +
                 cubicCurve.A + ',' +
                 cubicCurve.B + ',' +
@@ -536,7 +541,7 @@ function FullPage(options) {
     _t = page[indexNow].className;
     page[indexNow].className = _t.indexOf('current') !== -1 ? _t : _t + ' current';
 
-    if (browser.addEventListener) {
+    if (browser.addEventListener) { //浏览器支持addEventListener
         window.addEventListener('resize', init, false);
     } else {
         window.onresize = init;
@@ -547,6 +552,7 @@ function FullPage(options) {
         (function(m) {
 
             switch (true) {
+                //鼠标滚动
                 case m === 'wheel':
 
                     wheelScroll = function(e) {
@@ -560,9 +566,10 @@ function FullPage(options) {
                         }
                         //翻页锁定
                         if (_isLocked) return;
+                        //滚动方向
                         direct = -e.wheelDelta || e.detail;
                         direct = direct < 0 ? -1 : 1;
-
+                        //决定下一页还是上一页
                         goPage(indexNow + direct);
                     }
                     if (browser.addEventListener) {
@@ -570,11 +577,11 @@ function FullPage(options) {
                     }
                     window.onmousewheel = document.onmousewheel = wheelScroll;
                     break;
-
+                //手指滑动
                 case m === 'touch':
+                    //不支持绑定跳过
                     if (!browser.addEventListener) break;
                     (function() {
-
                         var pageIndexMax = pagelen - 1,
                             scaleStart = effect.transform.scale[0],
                             scaleDiff = effect.transform.scale[1] - scaleStart,
@@ -596,7 +603,7 @@ function FullPage(options) {
                             _interval,
                             _touch,
                             _t;
-
+                        //这里逻辑不对
                         if (!browser.touch && isWindowsPhone) {
                             if (window.navigator.msPointerEnabled) {
                                 _touch = {
@@ -618,7 +625,7 @@ function FullPage(options) {
                                 end: 'touchend'
                             }
                         }
-
+                        //我靠， 这里_touch一定不为空
                         if (!_touch) return;
                         document.body.ontouchmove = function(e) {
                             if (e.preventDefault) {
