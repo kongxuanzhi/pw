@@ -33,7 +33,7 @@
   <div class="words">
     <label>警句:</label>
     <ul>
-      <li>温饱思什么? 小康!!</li>
+      <li>2323232温饱思什么? 小康!!</li>
       <li></li>
     </ul>
   </div>

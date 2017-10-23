@@ -1,14 +1,20 @@
 import Hello from '@/components/Hello'
 import Lock from '@/components/Lock'
+import Share from '@/components/Share'
 
 export default {
     routes: [{
         path: '/',
-        name: 'Lock',
-        component: Lock
+        name: 'Share',
+        component: Share
     },
     {
-        path: '/',
+        path: '/lock',
+        name: 'Lock',
+        component: Hello
+    },
+    {
+        path: '/hello',
         name: 'Hello',
         component: Hello
     }]
