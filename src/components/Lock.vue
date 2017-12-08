@@ -1,25 +1,7 @@
 <template>
 <div id="lock">
   <div class="main">
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
-    </canvas>
-    <canvas class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
+    <canvas v-for="shape in shapes" class="myCanvas" height="210" width="210" style="border:1px solid #d3d3d3;">
     </canvas>
     <div style="clear: both"></div>
   </div>
@@ -92,7 +74,9 @@ export default {
         }
 
         for (let i = 1; i <= 9; i++) {
-            ctx.beginPath();ctx.arc(relPos(a[i])[0], relPos(a[i])[1], 6, 0, 2 * Math.PI);ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(relPos(a[i])[0], relPos(a[i])[1], 6, 0, 2 * Math.PI);
+            ctx.stroke();
         }
 
         let midPoint = (pre, next) => {
@@ -106,26 +90,26 @@ export default {
         }
 
         let line = () => {
-        if (i >= shape.length - 1) {
-            window.clearInterval(stop)
-            return;
-        }
+            if (i >= shape.length - 1) {
+                window.clearInterval(stop)
+                return;
+            }
 
-        let p = a[shape[i]];
-        let np = a[shape[i + 1]];
+            let p = a[shape[i]];
+            let np = a[shape[i + 1]];
 
-        while (flag[np]) {
+            while (flag[np]) {
                 i++;
                 if (i >= shape.length - 1) {
                     window.clearInterval(stop)
-                return;
+                    return;
                 }
                 np = a[shape[i + 1]];
             }
 
             let mid = midPoint(p, np)
             if (mid.length > 0) {
-                    flag[mid] = 1;
+                flag[mid] = 1;
             }
 
             ctx.beginPath();
@@ -146,7 +130,7 @@ export default {
 #lock {
     background-color: #eee;
     text-align: center;
-    background: url('../assets/girl.jpg');
+    //background: url('../assets/girl.jpg');
     background-size: 100%;
 }
 .main {

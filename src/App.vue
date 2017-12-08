@@ -34,11 +34,12 @@ h1, h2 {
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 li {
   display: inline-block;
-  margin: 0 10px;
+  margin: 0;
 }
 
 a {

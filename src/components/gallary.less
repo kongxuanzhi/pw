@@ -1,0 +1,41 @@
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 1260px;
+  height: 600px;
+  margin: 0 auto;
+  outline: 1px dashed red;
+
+  ul {
+    height: 100%;
+    width: 4980px;
+    // transition: left 4s;
+    left: 0;
+    position: absolute;
+    animation: myfirst 4s linear, mymove 4s 4s alternate;
+
+    li {
+      width: 1260px;
+      height: 100%;
+      border: 1px solid green;
+      float: left;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  @keyframes myfirst
+  {
+    from {left:0px;}
+    to {left:-1260px;}
+  }
+
+  @keyframes mymove
+  {
+    from {left:-1260px;}
+    to {left:0px;}
+  }
+}
